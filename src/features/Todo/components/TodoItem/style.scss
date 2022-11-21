@@ -1,0 +1,10 @@
+.p-todo {
+    &_item {
+        cursor: pointer;
+        &.completed {
+            text-decoration: line-through;
+            color: #ccc;
+            font-style: italic;
+        }
+    }
+}
