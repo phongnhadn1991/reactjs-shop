@@ -24,9 +24,8 @@ function TodoItem({todoItem, onTodoItemClick}) {
 
     return (
         <li
-            className={     
-                classnames({
-                    'p-todo_item': true,
+            className={
+                classnames('p-todo_item',{
                     completed: status === 'completed'
                 })
             }
