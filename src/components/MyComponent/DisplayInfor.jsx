@@ -13,7 +13,7 @@ class DisplayInfor extends React.Component {
 
     render() {
         // console.log(this.props);
-        const { listUsers } = this.props
+        const { listUsers, handleDeleteUser } = this.props
 
         return (
             <>
@@ -24,11 +24,11 @@ class DisplayInfor extends React.Component {
                 </div>
                 { this.state.isShowListUsers &&
                     <div className="listUser">
-                        {listUsers.map((user,idx) => {
-                            const { name, age } = user
+                        {listUsers.map((user) => {
+                            const { id, name, age } = user
                             return (
-                                <div key={idx} className={+age > 18 ? "green" : "red"}>
-                                    My name's {name}<br/>
+                                <div key={id} className={+age > 18 ? "green" : "red"}>
+                                    My name's {name} <button onClick={() => {handleDeleteUser(id)}}>Delete</button><br/>
                                     My age's {age}
                                     <hr />
                                 </div>

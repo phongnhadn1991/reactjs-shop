@@ -1,7 +1,7 @@
 import React from 'react';
 import DisplayInfor from './DisplayInfor';
 import AddUserInfo from './AddUserInfo';
-
+import './style.scss';
 class MyComponent extends React.Component {
 
     state = {
@@ -13,9 +13,16 @@ class MyComponent extends React.Component {
     }
 
     handleAddNewUser = (userInfo) => {
-        console.log(">>> check data",userInfo);
         this.setState({
             listUsers: [userInfo, ...this.state.listUsers]
+        })
+    }
+
+    handleDeleteUser = (userId) => {
+        let cloneListUser = [...this.state.listUsers]
+        cloneListUser = cloneListUser.filter((item) => item.id !== userId)
+        this.setState({
+            listUsers: cloneListUser
         })
     }
 
@@ -28,6 +35,7 @@ class MyComponent extends React.Component {
                 <br /><hr /><br />
                 <DisplayInfor
                     listUsers={this.state.listUsers}
+                    handleDeleteUser={this.handleDeleteUser}
                 />
             </>
         )
