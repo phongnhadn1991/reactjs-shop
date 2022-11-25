@@ -82,6 +82,13 @@ function CounterFeature(props) {
     const {age,name} = desPerson
     console.log(age,name);
 
+    // ĐIỀU KIỆN
+    console.clear();
+    const dkX = 10
+    dkX > 5 ? console.log('>5') : console.log('<5');
+
+
+
 
     return (
         <div className='p-count'>
