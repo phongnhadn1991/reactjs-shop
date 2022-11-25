@@ -16,8 +16,7 @@ class MyComponent extends React.Component {
         return (
             <>
                 <UserInfo/>
-                <br />
-                <hr /><hr />
+                <br /><hr /><br />
                 <DisplayInfor
                     listUsers={this.state.listUsers}
                 />
