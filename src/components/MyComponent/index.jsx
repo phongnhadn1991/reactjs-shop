@@ -3,14 +3,24 @@ import DisplayInfor from './DisplayInfor';
 import UserInfo from './UserInfo';
 
 class MyComponent extends React.Component {
+
+    state = {
+        listUsers: [
+            {id: 1, name: 'Mai Cong Ngoan', age: 31},
+            {id: 2, name: 'Le Thi Thuy Linh', age: 30},
+            {id: 3, name: 'Mai Gia Hung', age: 4}
+        ]
+    }
+
     render() {
-        const myInfor = ['a','b','c']
         return (
             <>
                 <UserInfo/>
                 <br />
                 <hr /><hr />
-                <DisplayInfor name={"MCN"} age={30} myInfor={myInfor} />
+                <DisplayInfor
+                    listUsers={this.state.listUsers}
+                />
             </>
         )
     }
