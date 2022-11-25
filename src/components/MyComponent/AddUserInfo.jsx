@@ -1,6 +1,6 @@
 import React from 'react';
 
-class UserInfo extends React.Component {
+class AddUserInfo extends React.Component {
     
     state = {
         name: 'Mai Cong Ngoan',
@@ -30,7 +30,13 @@ class UserInfo extends React.Component {
     
     handleOnSubmit = (event) => {
         event.preventDefault()
-        console.log(this.state);
+        // console.log(this.state);
+        const newUser = {
+            id: Math.floor((Math.random() * 9999999) * 99) + '-random',
+            name: this.state.name,
+            age: +this.state.age,
+        }
+        this.props.handleAddNewUser(newUser);
         this.setState({
             name: '',
             age: ''
@@ -61,4 +67,4 @@ class UserInfo extends React.Component {
     }
 };
 
-export default UserInfo;
+export default AddUserInfo;
