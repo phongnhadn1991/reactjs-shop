@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import classnames from "classnames";
 
@@ -12,6 +12,17 @@ function DisplayInfor(props) {
     const handleShowHide = (event) => {
         setisShowListUsers(!isShowListUsers)
     }
+
+    console.log('>>> call me render');
+
+    useEffect(
+        () => {
+        if(listUsers.length ===0 ) {
+            alert('User = 0')
+        }
+        console.log('>>> call me useEffect');
+        }, [listUsers]
+    )
 
     return (
         <>
