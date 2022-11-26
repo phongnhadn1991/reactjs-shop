@@ -5,6 +5,17 @@ class DisplayInfor extends React.Component {
         isShowListUsers: true
     }
 
+    componentDidMount() {
+        console.log('>>> call me component did mount');
+        setTimeout(() => {
+            document.title = 'MCN Title'
+        },3000)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshop) {
+        console.log('>>> call me component did update', prevProps , this.props);
+    }
+
     handleShowHide = (event) => {
         this.setState({
             isShowListUsers: !this.state.isShowListUsers
@@ -12,6 +23,7 @@ class DisplayInfor extends React.Component {
     }
 
     render() {
+        console.log(">>> call me render");
         // console.log(this.props);
         const { listUsers, handleDeleteUser } = this.props
 
