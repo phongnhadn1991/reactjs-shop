@@ -1,28 +1,27 @@
 import React, { useState } from 'react';
-import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { postCreateNewUser } from '../../../services/apiService'
 
 const ManagerUser = (props) => {
 
-    const [fullNameUser, setfullNameUser] = useState('')
-    const [emailUser, setemailUser] = useState('')
-    const [phoneUser, setphoneUser] = useState('')
+    const [fullname, setfullname] = useState('')
+    const [email, setemail] = useState('')
+    const [phone, setphone] = useState('')
 
     const clearForm = () => {
-        setfullNameUser('')
-        setemailUser('')
-        setphoneUser('')
+        setfullname('')
+        setemail('')
+        setphone('')
     }
 
-    const onchangeFullNameUser = (e) => {
-        setfullNameUser(e.target.value)
+    const onchangeFullname = (e) => {
+        setfullname(e.target.value)
     }
-    const onchangeEmailUser = (e) => {
-        setemailUser(e.target.value)
+    const onchangeEmail = (e) => {
+        setemail(e.target.value)
     }
-    const onchangePhoneNameUser = (e) => {
-        setphoneUser(e.target.value)
+    const onchangePhoneName = (e) => {
+        setphone(e.target.value)
     }
 
     const validateEmail = (email) => {
@@ -37,69 +36,61 @@ const ManagerUser = (props) => {
         e.preventDefault()
         // validate
 
-        if(!fullNameUser) {
+        if(!fullname) {
             toast.warn('Invalid full name')
             return
         }
 
-        const isValidEmail = validateEmail(emailUser)
+        const isValidEmail = validateEmail(email)
         if(!isValidEmail) {
             toast.warn('Invalid email')
             return
         }
 
-        if(!phoneUser) {
+        if(!phone) {
             toast.warn('Invalid phone')
             return
         }
 
-        let dataForm = {
-            fullname: fullNameUser,
-            email: emailUser,
-            phone: phoneUser
-        }
         // call apis
-        console.log('>>> form data:', dataForm);
-        let res = await axios.post('https://6177a06f9c328300175f5a35.mockapi.io/users', dataForm)
+        let res = await postCreateNewUser(fullname, email, phone)
         if(res.data && res.status === 201) {
             clearForm()
             toast.success('Created User')
         }
-        
+
     }
 
     return (
         <div>
             ManagerUser
-            <div>
-            <button className='btn btn-primary'>Add User</button>
+            <div className='pt-3'>
+                <h4>Add New User</h4>
             </div>
-            <form >
+            <form className='row'>
                 <div className='col-md-4'>
-                    <input onChange={(e) => onchangeFullNameUser(e)} value={fullNameUser} type="text" placeholder='fullname' />
+                    <input onChange={(e) => onchangeFullname(e)} value={fullname} type="text" placeholder='fullname' />
                 </div>
                 <div className='col-md-4'>
-                <input onChange={(e) => onchangeEmailUser(e)} value={emailUser} type="text" placeholder='email' />
+                <input onChange={(e) => onchangeEmail(e)} value={email} type="text" placeholder='email' />
                 </div>
                 <div className='col-md-4'>
-                <input onChange={(e) => onchangePhoneNameUser(e)} value={phoneUser} type="text" placeholder='phone' />
+                <input onChange={(e) => onchangePhoneName(e)} value={phone} type="text" placeholder='phone' />
                 </div>
-                <button onClick={(e) => { addNewUser(e) }}>Add</button>
+                <button className='btn btn-primary' onClick={(e) => { addNewUser(e) }}>Add User</button>
             </form>
 
-            <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            />
-            <ToastContainer />
+            <div className='pt-3'>
+                <h4>List User</h4>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </table>
+            </div>
+
         </div>
     );
 }
