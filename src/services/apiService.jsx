@@ -9,4 +9,8 @@ const postCreateNewUser = (fullname, email, phone) => {
     return axios.post('users', data)
 }
 
-export { postCreateNewUser }
+const getAllUser = () => {
+    return axios.get('users')
+}
+
+export { postCreateNewUser, getAllUser }
