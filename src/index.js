@@ -14,6 +14,7 @@ import Dashboard from './components/Admin/Content/Dashboard'
 import AddUser from './components/Admin/Content/User/AddUser';
 import ListUser from './components/Admin/Content/User/ListUser';
 import DetailUser from './components/Admin/Content/User/DetailUser';
+import UpdateUser from './components/Admin/Content/User/UpdateUser';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -26,7 +27,8 @@ root.render(
           <Route index element={<Dashboard />} />
           <Route path='users' element={<ListUser />} />
           <Route path='users/add' element={<AddUser />} />
-          <Route path='users/:id' element={<DetailUser />} />
+          <Route path='users/:userid' element={<DetailUser />} />
+          <Route path='users/edit/:userid' element={<UpdateUser />} />
         </Route>
       </Route>
     </Routes>

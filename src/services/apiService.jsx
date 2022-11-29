@@ -9,6 +9,15 @@ const postCreateNewUser = (fullname, email, phone) => {
     return axios.post('users', data)
 }
 
+const updateNewUser = (id,fullname, email, phone) => {
+    let data = {
+        fullname: fullname,
+        email: email,
+        phone: phone
+    }
+    return axios.put(`users/${id}`, data)
+}
+
 const getAllUser = () => {
     return axios.get('users')
 }
@@ -21,4 +30,4 @@ const getUser = (id) => {
     return axios.get(`users/${id}`)
 }
 
-export { postCreateNewUser, getAllUser, deleteUser, getUser }
+export { postCreateNewUser, getAllUser, deleteUser, getUser, updateNewUser }

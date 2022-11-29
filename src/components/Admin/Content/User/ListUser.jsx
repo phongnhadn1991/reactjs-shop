@@ -49,7 +49,7 @@ const ListUser = (props) => {
                                     <td>{user.phone}</td>
                                     <td>
                                         <span><button onClick={() => history(`${user.id}`)} className='btn btn-sm btn-success'>View</button> </span>
-                                        <span><button className='btn btn-sm btn-warning'>Update</button> </span>
+                                        <span><button onClick={() => history(`edit/${user.id}`)} className='btn btn-sm btn-warning'>Update</button> </span>
                                         <span><button onClick={() => deleteUserByID(user.id)} className='btn btn-sm btn-danger'>Delete</button></span>
                                     </td>
                                 </tr>
