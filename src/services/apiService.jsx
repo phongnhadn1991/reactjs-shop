@@ -13,4 +13,12 @@ const getAllUser = () => {
     return axios.get('users')
 }
 
-export { postCreateNewUser, getAllUser }
+const deleteUser = (id) => {
+    return axios.delete(`users/${id}`)
+}
+
+const getUser = (id) => {
+    return axios.get(`users/${id}`)
+}
+
+export { postCreateNewUser, getAllUser, deleteUser, getUser }

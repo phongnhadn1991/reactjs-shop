@@ -15,10 +15,10 @@ const Admin = (props) => {
             newestOnTop={false}
             closeOnClick
             rtl={false}
+            pauseOnHover={false}
             draggable
             theme="light"
             />
-            <ToastContainer />
         </div>
     );
 }

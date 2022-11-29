@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { getAllUser } from '../../../../services/apiService'
-import { Link } from "react-router-dom";
+import { getAllUser, deleteUser } from '../../../../services/apiService'
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const ListUser = (props) => {
 
     const [listUser, setlistUser] = useState([])
+    const history = useNavigate();
 
     const fetchListUser = async () => {
         let res = await getAllUser()
@@ -15,6 +17,13 @@ const ListUser = (props) => {
     useEffect(() => {
         fetchListUser();
     }, [])
+
+    const deleteUserByID = async (id) => {
+        let data = listUser.filter((user) => user.id !== id)
+        toast.success('Deleted User')
+        setlistUser(data)
+        await deleteUser(id)
+    }
 
     return (
         <div className='p-listUser py-5'>
@@ -39,9 +48,9 @@ const ListUser = (props) => {
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
                                     <td>
-                                        <span><button className='btn btn-sm btn-success'>View</button> </span>
+                                        <span><button onClick={() => history(`${user.id}`)} className='btn btn-sm btn-success'>View</button> </span>
                                         <span><button className='btn btn-sm btn-warning'>Update</button> </span>
-                                        <span><button className='btn btn-sm btn-danger'>Delete</button></span>
+                                        <span><button onClick={() => deleteUserByID(user.id)} className='btn btn-sm btn-danger'>Delete</button></span>
                                     </td>
                                 </tr>
                             )
