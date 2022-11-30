@@ -12,7 +12,7 @@ const ListUser = (props) => {
 
     const LIMIT_PER_PAGE = 3
     const [pageCount, setPageCount] = useState(1);
-    const [pageTotal, setpageTotal] = useState(1);
+    const pageTotal = Math.ceil(listUserAll.length / LIMIT_PER_PAGE);
 
     const fetchListUser = async () => {
         let res = await getAllUser(pageCount,LIMIT_PER_PAGE)
@@ -34,7 +34,6 @@ const ListUser = (props) => {
 
     useEffect(() => {
         fetchAllListUser()
-        setpageTotal(Math.ceil(listUserAll.length / LIMIT_PER_PAGE));
     }, [])
 
     const deleteUserByID = async (id) => {
