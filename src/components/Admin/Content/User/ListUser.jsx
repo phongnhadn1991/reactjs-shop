@@ -6,12 +6,11 @@ import ReactPaginate from 'react-paginate';
 
 const ListUser = (props) => {
 
-    const [listUserAll, setlistUserAll] = useState([])
     const [listUser, setlistUser] = useState([])
     const history = useNavigate();
 
     const LIMIT_PER_PAGE = 10
-    const pageTotal = Math.ceil(listUserAll.length / LIMIT_PER_PAGE);
+    const [pageTotal, setpageTotal] = useState(1)
 
     const fetchListUser = async (curentPage) => {
         let res = await getAllUser(curentPage,LIMIT_PER_PAGE)
@@ -20,10 +19,10 @@ const ListUser = (props) => {
         }
     }
 
-    const fetchAllListUser = async () => {
+    const fetchTotalPage = async () => {
         let res = await getAllUser()
         if (res.data && res.status === 200) {
-            setlistUserAll(res.data)
+            setpageTotal(Math.ceil(res.data.length / LIMIT_PER_PAGE))
         }
     }
 
@@ -32,7 +31,7 @@ const ListUser = (props) => {
     }, [])
 
     useEffect(() => {
-        fetchAllListUser()
+        fetchTotalPage()
     }, [])
 
     const deleteUserByID = async (id) => {
@@ -61,7 +60,7 @@ const ListUser = (props) => {
                 </thead>
                 <tbody>
                     {listUser && listUser.length > 0 &&
-                        listUser.map((user, idx) => {
+                        listUser.map((user) => {
                             return (
                                 <tr key={user.id}>
                                     <th scope="row">{user.id}</th>

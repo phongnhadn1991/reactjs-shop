@@ -1,57 +1,82 @@
 import React, { useState, useEffect } from 'react'
-import { getAllUser } from '../../services/apiService'
+import { getAllUser, getAllUserFilter } from '../../services/apiService'
 import ReactPaginate from 'react-paginate';
 import _ from 'lodash';
 
 const ListUser = (props) => {
-    const [listUserAll, setlistUserAll] = useState([])
     const [listUser, setlistUser] = useState([])
     const [textSearch, settextSearch] = useState('')
-
     
-    
+    // int page
     const LIMIT_PER_PAGE = 10
-    const pageTotal = Math.ceil(listUserAll.length / LIMIT_PER_PAGE);
+    const [pageTotal, setpageToTal] = useState(1)
 
-    const fetchListUser = async (curentPage) => {
-        let res = await getAllUser(curentPage,LIMIT_PER_PAGE)
-        if (res.data && res.status === 200) {
-            setlistUser(res.data)
-        }
+    const calculatorpageToTal = (total) => {
+        setpageToTal(Math.ceil(total / LIMIT_PER_PAGE))
     }
 
-    const fetchAllListUser = async () => {
+
+    // Fetch total page by call api
+    const fetchTotalPage = async () => {
         let res = await getAllUser()
         if (res.data && res.status === 200) {
-            setlistUserAll(res.data)
+            calculatorpageToTal(res.data.length)
         }
     }
 
+    // Fetch user by filter search
+    const fetchListUserFilter = async (curentPage = 1, limit = LIMIT_PER_PAGE, txtSearch) => {
+        await getAllUserFilter(curentPage, limit, txtSearch)
+        .then(res => {
+            setlistUser(res.data)
+        })
+    }
+    
     useEffect(() => {
-        fetchListUser();
+        fetchListUserFilter();
     }, [])
 
     useEffect(() => {
-        fetchAllListUser()
+        fetchTotalPage();
     }, [])
 
-    const handlePageClick = (event) => {
+    const handlePageClick = async (event) => {
         console.log(`User requested page number ${event.selected + 1}`);
-        fetchListUser(event.selected + 1);
+        let totalPage = await getAllUserFilter(null, null, _.lowerCase(textSearch))
+        await getAllUserFilter(event.selected + 1, LIMIT_PER_PAGE, _.lowerCase(textSearch))
+        .then(res => {
+            setlistUser(res.data)
+            calculatorpageToTal(totalPage.data.length)
+        })
     };
 
-    const submitFormSearch = () => {
-        console.log('>>>',_.includes(listUser, { 'id' : '1'} ));
+    const onChangeInputSearch = (e) => {
+        e.preventDefault()
+        if(e.target.value === '') {
+            fetchListUserFilter()
+            fetchTotalPage()
+        }
+        settextSearch(e.target.value)
+    }
+
+    const submitFormSearch = async (e) => {
+        e.preventDefault()
+
+        await getAllUserFilter(null, null, _.lowerCase(textSearch))
+        .then(res => {
+            setlistUser(_.slice(res.data,0,10))
+            calculatorpageToTal(res.data.length)
+        })
     }
 
     return (
         <div className='p-listUser'>
             <h4>List User</h4>
 
-            <form>
+            <form onSubmit={(e) => submitFormSearch(e)}>
                 <div className="input-group mb-3">
-                    <input onChange={(e) => settextSearch(e.target.value)} value={textSearch} type="text" className="form-control" placeholder="Search Name" aria-label="search Name" aria-describedby="button-addon2" />
-                    <button onClick={() => { submitFormSearch() }} className="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                    <input onChange={(e) => onChangeInputSearch(e)} value={textSearch} type="text" className="form-control" placeholder="Search Name" aria-label="search Name" aria-describedby="button-addon2" />
+                    <button onClick={(e) => { submitFormSearch(e) }} className="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
                 </div>
             </form>
 
@@ -66,7 +91,7 @@ const ListUser = (props) => {
                 </thead>
                 <tbody>
                     {listUser && listUser.length > 0 &&
-                        listUser.map((user, idx) => {
+                        listUser.map((user) => {
                             return (
                                 <tr key={user.id}>
                                     <th scope="row">{user.id}</th>

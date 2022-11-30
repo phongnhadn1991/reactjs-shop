@@ -32,4 +32,11 @@ const getUser = (id) => {
     return axios.get(`users/${id}`)
 }
 
-export { postCreateNewUser, getAllUser, deleteUser, getUser, updateNewUser }
+const getAllUserFilter = (page, limit, fullname) => {
+    const p = (page) ? page : ''
+    const lm = (limit) ? limit : -1
+    const fn = (fullname) ? fullname : ''
+    return axios.get(`users?page=${p}&limit=${lm}&fullname=${fn}`)
+}
+
+export { postCreateNewUser, getAllUser, deleteUser, getUser, updateNewUser, getAllUserFilter}
