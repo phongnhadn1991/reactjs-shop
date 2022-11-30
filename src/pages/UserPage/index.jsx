@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import ListUser from '../../components/User/ListUser.jsx'
 
 const UserPage = (props) => {
   useEffect(() => {
@@ -8,7 +9,9 @@ const UserPage = (props) => {
   return (
     <div className='l-homepage'>
       <div className="container">
-        UserPage
+        <div className="p-listUser">
+          <ListUser />
+        </div>
       </div>
     </div>
   )
