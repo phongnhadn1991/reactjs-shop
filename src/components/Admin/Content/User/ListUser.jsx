@@ -10,12 +10,11 @@ const ListUser = (props) => {
     const [listUser, setlistUser] = useState([])
     const history = useNavigate();
 
-    const LIMIT_PER_PAGE = 3
-    const [pageCount, setPageCount] = useState(1);
+    const LIMIT_PER_PAGE = 10
     const pageTotal = Math.ceil(listUserAll.length / LIMIT_PER_PAGE);
 
-    const fetchListUser = async () => {
-        let res = await getAllUser(pageCount,LIMIT_PER_PAGE)
+    const fetchListUser = async (curentPage) => {
+        let res = await getAllUser(curentPage,LIMIT_PER_PAGE)
         if (res.data && res.status === 200) {
             setlistUser(res.data)
         }
@@ -45,8 +44,7 @@ const ListUser = (props) => {
 
     const handlePageClick = (event) => {
         console.log(`User requested page number ${event.selected + 1}`);
-        setPageCount(event.selected + 1)
-        fetchListUser();
+        fetchListUser(event.selected + 1);
     };
 
     return (
@@ -87,12 +85,12 @@ const ListUser = (props) => {
                 </tbody>
             </table>
             <ReactPaginate
-                nextLabel="next >"
+                nextLabel="Next >"
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={3}
                 marginPagesDisplayed={2}
                 pageCount={pageTotal}
-                previousLabel="< previous"
+                previousLabel="< Prev"
                 pageClassName="page-item"
                 pageLinkClassName="page-link"
                 previousClassName="page-item"
