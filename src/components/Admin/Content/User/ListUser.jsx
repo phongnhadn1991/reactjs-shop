@@ -10,7 +10,7 @@ const ListUser = (props) => {
 
     const fetchListUser = async () => {
         let res = await getAllUser()
-        if(res.data && res.status === 200) {
+        if (res.data && res.status === 200) {
             setlistUser(res.data)
         }
     }
@@ -26,8 +26,7 @@ const ListUser = (props) => {
     }
 
     return (
-        <div className='p-listUser py-5'>
-            <div className="container">
+        <div className='p-listUser'>
             <h4>List User <span><Link to='add' className='btn btn-primary btn-sm'>Add User</Link></span></h4>
             <table className="table table-striped">
                 <thead>
@@ -63,7 +62,6 @@ const ListUser = (props) => {
                     }
                 </tbody>
             </table>
-            </div>
         </div>
     )
 }

@@ -49,7 +49,7 @@ const UpdateUser = (props) => {
         }
 
         // call apis
-        let res = await updateNewUser(userid ,fullname, email, phone)
+        let res = await updateNewUser(userid, fullname, email, phone)
         if (res.data && res.status === 200) {
             toast.success('Updated User')
             setfullname(fullname)
@@ -73,25 +73,23 @@ const UpdateUser = (props) => {
     }, [userid])
 
     return (
-        <div className='p-user_add py-5'>
-            <div className="container">
-                <h4>Edit User #{userid} <span><Link to='../users' className='btn btn-success btn-sm'>List User</Link></span></h4>
-                <form>
-                    <div className="form-group mb-3">
-                        <label htmlFor="inputFullName">Full Name</label>
-                        <input className="form-control" id="inputFullName" onChange={(e) => onchangeFullname(e)} value={fullname} type="text" placeholder='fullname' />
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="inputEmail">Email</label>
-                        <input className="form-control" id="inputEmail" onChange={(e) => onchangeEmail(e)} value={email} type="text" placeholder='email' />
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="inputPhone">Phone</label>
-                        <input className="form-control" id="inputPhone" onChange={(e) => onchangePhoneName(e)} value={phone} type="text" placeholder='phone' />
-                    </div>
-                    <button className='btn btn-primary' onClick={(e) => { updateNewUserById(e) }}>Update User</button>
-                </form>
-            </div>
+        <div className='p-user_add'>
+            <h4>Edit User #{userid} <span><Link to='../users' className='btn btn-success btn-sm'>List User</Link></span></h4>
+            <form>
+                <div className="form-group mb-3">
+                    <label htmlFor="inputFullName">Full Name</label>
+                    <input className="form-control" id="inputFullName" onChange={(e) => onchangeFullname(e)} value={fullname} type="text" placeholder='fullname' />
+                </div>
+                <div className="form-group mb-3">
+                    <label htmlFor="inputEmail">Email</label>
+                    <input className="form-control" id="inputEmail" onChange={(e) => onchangeEmail(e)} value={email} type="text" placeholder='email' />
+                </div>
+                <div className="form-group mb-3">
+                    <label htmlFor="inputPhone">Phone</label>
+                    <input className="form-control" id="inputPhone" onChange={(e) => onchangePhoneName(e)} value={phone} type="text" placeholder='phone' />
+                </div>
+                <button className='btn btn-primary' onClick={(e) => { updateNewUserById(e) }}>Update User</button>
+            </form>
         </div>
     )
 }
