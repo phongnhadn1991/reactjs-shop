@@ -18,8 +18,10 @@ const updateNewUser = (id,fullname, email, phone) => {
     return axios.put(`users/${id}`, data)
 }
 
-const getAllUser = () => {
-    return axios.get('users')
+const getAllUser = (page, limit) => {
+    const p = (page) ? page : 1
+    const lm = (limit) ? limit : -1
+    return axios.get(`users?page=${p}&limit=${lm}`)
 }
 
 const deleteUser = (id) => {
