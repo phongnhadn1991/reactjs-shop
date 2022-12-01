@@ -6,10 +6,11 @@ import _ from 'lodash';
 const ListUser = (props) => {
     const [listUser, setlistUser] = useState([])
     const [textSearch, settextSearch] = useState('')
-    
+
     // int page
     const LIMIT_PER_PAGE = 10
     const [pageTotal, setpageToTal] = useState(1)
+    const [curentPage, setcurentPage] = useState(0)
 
     const calculatorpageToTal = (total) => {
         setpageToTal(Math.ceil(total / LIMIT_PER_PAGE))
@@ -27,32 +28,32 @@ const ListUser = (props) => {
     // Fetch user by filter search
     const fetchListUserFilter = async (curentPage = 1, limit = LIMIT_PER_PAGE, txtSearch) => {
         await getAllUserFilter(curentPage, limit, txtSearch)
-        .then(res => {
-            setlistUser(res.data)
-        })
+            .then(res => {
+                setlistUser(res.data)
+            })
     }
-    
+
     useEffect(() => {
-        fetchListUserFilter();
+        fetchListUserFilter()
     }, [])
 
     useEffect(() => {
-        fetchTotalPage();
+        fetchTotalPage()
     }, [])
 
     const handlePageClick = async (event) => {
-        console.log(`User requested page number ${event.selected + 1}`);
         let totalPage = await getAllUserFilter(null, null, _.lowerCase(textSearch))
         await getAllUserFilter(event.selected + 1, LIMIT_PER_PAGE, _.lowerCase(textSearch))
-        .then(res => {
-            setlistUser(res.data)
-            calculatorpageToTal(totalPage.data.length)
-        })
+            .then(res => {
+                setlistUser(res.data)
+                calculatorpageToTal(totalPage.data.length)
+            })
+        setcurentPage(event.selected)
     };
 
     const onChangeInputSearch = (e) => {
         e.preventDefault()
-        if(e.target.value === '') {
+        if (e.target.value === '') {
             fetchListUserFilter()
             fetchTotalPage()
         }
@@ -63,10 +64,16 @@ const ListUser = (props) => {
         e.preventDefault()
 
         await getAllUserFilter(null, null, _.lowerCase(textSearch))
-        .then(res => {
-            setlistUser(_.slice(res.data,0,10))
-            calculatorpageToTal(res.data.length)
-        })
+            .then(res => {
+                calculatorpageToTal(res.data.length)
+            })
+
+        await getAllUserFilter(1, LIMIT_PER_PAGE, _.lowerCase(textSearch))
+            .then(res => {
+                setlistUser(res.data)
+            })
+
+        setcurentPage(0)
     }
 
     return (
@@ -109,26 +116,31 @@ const ListUser = (props) => {
                     }
                 </tbody>
             </table>
-            <ReactPaginate
-                nextLabel="Next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={2}
-                pageCount={pageTotal}
-                previousLabel="< Prev"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakLabel="..."
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName="active"
-                renderOnZeroPageCount={null}
-            />
+            {
+                pageTotal && pageTotal > 1 &&
+                <ReactPaginate
+                    nextLabel="Next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    pageCount={pageTotal}
+                    previousLabel="< Prev"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakLabel="..."
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                    renderOnZeroPageCount={null}
+                    forcePage={curentPage}
+                />
+            }
+
         </div>
     )
 }

@@ -13,7 +13,7 @@ const ListUser = (props) => {
     const [pageTotal, setpageTotal] = useState(1)
 
     const fetchListUser = async (curentPage) => {
-        let res = await getAllUser(curentPage,LIMIT_PER_PAGE)
+        let res = await getAllUser(curentPage, LIMIT_PER_PAGE)
         if (res.data && res.status === 200) {
             setlistUser(res.data)
         }
@@ -27,7 +27,7 @@ const ListUser = (props) => {
     }
 
     useEffect(() => {
-        fetchListUser();
+        fetchListUser()
     }, [])
 
     useEffect(() => {
@@ -42,7 +42,6 @@ const ListUser = (props) => {
     }
 
     const handlePageClick = (event) => {
-        console.log(`User requested page number ${event.selected + 1}`);
         fetchListUser(event.selected + 1);
     };
 
