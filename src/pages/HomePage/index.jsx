@@ -7,15 +7,29 @@ const HomePage = (props) => {
   const [postList, setpostList] = useState([])
   const [postThumb, setpostThumb] = useState([])
 
+  const getThumbWp = async (id) => {
+    await getThumbPost(id).then(res => { 
+      if(res.status === 200) {
+        return res.data._embedded['wp:featuredmedia'][0].source_url
+      }
+     })
+  }
+
   const getPostWp = async () => {
     await getAllPost().then(res => {
       console.log(res)
       if(res.status === 200 ) {
-        setpostList(res.data)
+        // eslint-disable-next-line array-callback-return
+        const newData = res.data.map(post => {
+          let thumb = getThumbWp(post.id)
+          console.log(thumb)
+          // return {...post,urlThumb:thumb}
+        })
+        setpostList(newData)
       }
     })
   }
-  
+
   // const getThumbWp = async (id) => {
   //   await getThumbPost(id).then(res => { 
   //     if(res.status === 200) {
