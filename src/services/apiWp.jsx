@@ -4,7 +4,7 @@ const getAllPost = () => {
     return axiosWp.get(`/wp/v2/posts`)
 }
 
-const getThumbPost = async (id) => {
+const getThumbPost = (id) => {
     return axiosWp.get(`/wp/v2/posts/${id}?_embed`)
 }
 

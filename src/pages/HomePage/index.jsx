@@ -5,40 +5,23 @@ import { getAllPost, getThumbPost } from '../../services/apiWp';
 const HomePage = (props) => {
 
   const [postList, setpostList] = useState([])
-  const [postThumb, setpostThumb] = useState([])
 
-  const getThumbWp = async (id) => {
-    await getThumbPost(id).then(res => { 
-      if(res.status === 200) {
-        return res.data._embedded['wp:featuredmedia'][0].source_url
-      }
-     })
-  }
-
-  const getPostWp = async () => {
-    await getAllPost().then(res => {
-      console.log(res)
-      if(res.status === 200 ) {
-        // eslint-disable-next-line array-callback-return
-        const newData = res.data.map(post => {
-          let thumb = getThumbWp(post.id)
-          console.log(thumb)
-          // return {...post,urlThumb:thumb}
+  const getPostWp = () => {
+     getAllPost().then((res) => {
+       if(res.status === 200 ) {
+         // eslint-disable-next-line array-callback-return
+        let newArrPost = []
+        res.data.forEach(async(post) => {
+          console.log(post)
+          const resThumb = await getThumbPost(post.id)
+          .then(res => res.data._embedded["wp:featuredmedia"][0].source_url)
+          newArrPost.push({...post,urlThumb: resThumb})
         })
-        setpostList(newData)
+        console.log(newArrPost);
+        setpostList(newArrPost)
       }
     })
   }
-
-  // const getThumbWp = async (id) => {
-  //   await getThumbPost(id).then(res => { 
-  //     if(res.status === 200) {
-  //       console.log(res.data._embedded['wp:featuredmedia'][0].source_url);
-  //       return res.data._embedded['wp:featuredmedia'][0].source_url
-  //     }
-  //    })
-  // }
-  
 
   useEffect(() => {
     document.title = 'Home Page';
@@ -66,7 +49,7 @@ const HomePage = (props) => {
                                 <tr key={post.id}>
                                     <th scope="row">{post.id}</th>
                                     <td>{post.title.rendered}</td>
-                                    <td></td>
+                                    <td><img width={50} src={post.urlThumb} alt={post.title.rendered} /></td>
                                 </tr>
                             )
                         })
