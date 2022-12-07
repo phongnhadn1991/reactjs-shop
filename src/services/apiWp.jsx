@@ -1,7 +1,7 @@
 import axiosWp from "../utils/axiosWp";
 
 const getAllPost = () => {
-    return axiosWp.get(`/wp/v2/posts`)
+    return axiosWp.get(`/wp/v2/posts?_embed`)
 }
 
 const getThumbPost = (id) => {

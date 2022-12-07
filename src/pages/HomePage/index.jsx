@@ -1,6 +1,6 @@
 import {  useState, useEffect } from 'react'
 
-import { getAllPost, getThumbPost } from '../../services/apiWp';
+import { getAllPost } from '../../services/apiWp';
 
 const HomePage = (props) => {
 
@@ -9,16 +9,7 @@ const HomePage = (props) => {
   const getPostWp = () => {
      getAllPost().then((res) => {
        if(res.status === 200 ) {
-         // eslint-disable-next-line array-callback-return
-        let newArrPost = []
-        res.data.forEach(async(post) => {
-          console.log(post)
-          const resThumb = await getThumbPost(post.id)
-          .then(res => res.data._embedded["wp:featuredmedia"][0].source_url)
-          newArrPost.push({...post,urlThumb: resThumb})
-        })
-        console.log(newArrPost);
-        setpostList(newArrPost)
+        setpostList(res.data)
       }
     })
   }
@@ -31,6 +22,8 @@ const HomePage = (props) => {
   return (
     <div className='l-homepage'>
       <div className="container">
+        <h4>LIST NEWS</h4>
+        <hr />
         {/* Post List */}
         <div className="p-post">
           <div className="p-postList">
@@ -39,6 +32,7 @@ const HomePage = (props) => {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Title</th>
+                        <th scope="col">Category</th>
                         <th scope="col">Thumb</th>
                     </tr>
                 </thead>
@@ -49,7 +43,8 @@ const HomePage = (props) => {
                                 <tr key={post.id}>
                                     <th scope="row">{post.id}</th>
                                     <td>{post.title.rendered}</td>
-                                    <td><img width={50} src={post.urlThumb} alt={post.title.rendered} /></td>
+                                    <td>{post._embedded["wp:term"][0].slug}</td>
+                                    <td><img width={70} src={post._embedded["wp:featuredmedia"][0].source_url} alt={post.title.rendered} /></td>
                                 </tr>
                             )
                         })
@@ -63,7 +58,12 @@ const HomePage = (props) => {
             </table>
           </div>
         </div>
-        {/* End Post Lis */}
+        {/* End Post List */}
+        <br />
+        <h4>LIST MENU</h4>
+        {/* List Menu */}
+        {/* End Post List */}
+        <hr />
       </div>
     </div>
   )
